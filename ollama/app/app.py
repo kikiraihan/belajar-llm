@@ -2,7 +2,7 @@ import os
 import requests
 from dotenv import load_dotenv
 
-# Load .env
+# Load .env (optional)
 load_dotenv()
 
 MODEL_NAME = os.getenv("MODEL_NAME", "mistral")
@@ -14,7 +14,8 @@ LABELS = ["Hacking LLM", "Chit Chat", "Fact Question"]
 print("=== Text Classification Terminal (Ollama) ===")
 print("Ketik 'exit' untuk keluar.\n")
 
-OLLAMA_API = "http://ollama:11434/api/generate"  # hostname service ollama di docker-compose
+# Gunakan hostname service Ollama
+OLLAMA_API = "http://ollama:11434/api/generate"
 
 while True:
     text = input("Masukkan teks: ")
@@ -22,14 +23,15 @@ while True:
         print("Keluar dari program.")
         break
 
+    # Prompt manual ke Ollama
     prompt = f"""
-    Klasifikasikan teks berikut ke salah satu label berikut:
-    {LABELS}
+Klasifikasikan teks berikut ke salah satu label berikut:
+{LABELS}
 
-    Teks: "{text}"
+Teks: "{text}"
 
-    Jawaban hanya berupa satu label yang paling sesuai.
-    """
+Jawaban hanya berupa satu label yang paling sesuai.
+"""
 
     response = requests.post(OLLAMA_API, json={
         "model": MODEL_NAME,
