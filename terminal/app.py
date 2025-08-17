@@ -1,15 +1,22 @@
+import os
 from transformers import pipeline
+from dotenv import load_dotenv
 
-# Load model zero-shot (multi-class)
+# Load .env file (kalau ada)
+load_dotenv()
+
+# Ambil nama model dari env (default = bart-large-mnli)
+model_name = os.getenv("MODEL_NAME", "facebook/bart-large-mnli")
+
 classifier = pipeline(
     "zero-shot-classification",
-    model="facebook/bart-large-mnli"  # ringan & sudah support zero-shot
+    model=model_name
 )
 
-# Label candidate
 LABELS = ["Hacking LLM", "Chit Chat", "Fact Question"]
 
 print("=== Text Classification Terminal ===")
+print(f"Loaded model: {model_name}")
 print("Ketik 'exit' untuk keluar.\n")
 
 while True:

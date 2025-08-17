@@ -1,28 +1,20 @@
-FROM python:3.11-slim
-
-# Install system dependencies yang dibutuhkan
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libffi-dev \
-    libssl-dev \
-    libbz2-dev \
-    libreadline-dev \
-    libsqlite3-dev \
-    zlib1g-dev \
-    libncurses5-dev \
-    libncursesw5-dev \
-    uuid-dev \
-    curl git \
- && rm -rf /var/lib/apt/lists/*
+FROM cnstark/pytorch:2.3.0-py3.10.15-ubuntu22.04
 
 WORKDIR /app
 
-# Copy dan install Python dependencies
+# Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy script Python
-COPY app.py .
+# Pre-download model-model
+RUN python -c "from transformers import pipeline; pipeline('zero-shot-classification', model='facebook/bart-large-mnli')"
+RUN python -c "from transformers import pipeline; pipeline('zero-shot-classification', model='valhalla/distilbart-mnli-12-1')"
+RUN python -c "from transformers import pipeline; pipeline('zero-shot-classification', model='MoritzLaurer/deberta-v3-small-zeroshot-v1')"
 
-# Jalankan script secara interaktif
+# Copy seluruh kode
+COPY . .
+
+# Default model (bisa dioverride via .env)
+ENV MODEL_NAME=facebook/bart-large-mnli
+
 CMD ["python", "app.py"]
