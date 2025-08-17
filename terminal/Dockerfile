@@ -1,20 +1,19 @@
-FROM cnstark/pytorch:2.3.0-py3.10.15-ubuntu22.04
+FROM python:3.9-slim
+
+# Install OS deps
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Install dependencies
+# Install Python deps
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Pre-download model-model
+# Pre-download model dari HuggingFace
 RUN python -c "from transformers import pipeline; pipeline('zero-shot-classification', model='facebook/bart-large-mnli')"
-RUN python -c "from transformers import pipeline; pipeline('zero-shot-classification', model='valhalla/distilbart-mnli-12-1')"
-RUN python -c "from transformers import pipeline; pipeline('zero-shot-classification', model='MoritzLaurer/deberta-v3-small-zeroshot-v1')"
 
-# Copy seluruh kode
-COPY . .
+# Copy kode aplikasi
+COPY app.py .
 
-# Default model (bisa dioverride via .env)
-ENV MODEL_NAME=facebook/bart-large-mnli
-
+# Default command
 CMD ["python", "app.py"]
