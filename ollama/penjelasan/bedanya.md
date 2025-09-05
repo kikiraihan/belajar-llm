@@ -1,3 +1,12 @@
+konteks seblumnya
+Saya :cara pakai model huggingface facebook/bart-large-mnli di vps pake docker?
+gpt: ...
+.....
+Saya: kalo pake ollama bisa? tapi bgmn jika saya ingin serve jadi api apakah bisa juga pake ollama?
+gpt: 
+Sip, saya jelaskan ya 🔥....
+
+
 Sip, saya jelaskan ya 🔥
 
 ---
