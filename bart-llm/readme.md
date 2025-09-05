@@ -1,3 +1,5 @@
+# ABOUT
+Kode bart ini dibuat untuk menghadirkan fitur prediksi prompt apakah sekedar chitchat atau bertanya fakta
 
 
 ## 🔹 Cara jalankan
